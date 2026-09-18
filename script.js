@@ -674,56 +674,41 @@ function provideHint() {
 
   playSound("click");
 
-  if (hintUsed) {
-    return;
-  }
-
-  hintUsed = true;
-
-
   const symbol =
     currentQuestionData.isAddition
       ? "+"
       : "-";
 
-
   const hintMessage =
     `Petunjuk Ciko: Hitung ${currentQuestionData.num1} ${symbol} ${currentQuestionData.num2} dengan teliti ya!`;
-
 
   const modal =
     document.getElementById(
       "feedback-modal"
     );
 
-
   document.getElementById(
     "modal-icon"
   ).textContent =
     "💡";
-
 
   document.getElementById(
     "modal-title"
   ).textContent =
     "Bantuan Ciko";
 
-
   document.getElementById(
     "modal-message"
   ).textContent =
     hintMessage;
-
 
   const nextButton =
     document.getElementById(
       "modal-next-btn"
     );
 
-
   nextButton.textContent =
     "Tutup Bantuan 💡";
-
 
   nextButton.onclick =
     function () {
@@ -734,7 +719,6 @@ function provideHint() {
         "hidden"
       );
     };
-
 
   modal.classList.remove(
     "hidden"
