@@ -171,6 +171,150 @@ function playSound(type) {
       });
     }
 
+    // ====================================================
+    // INTRO PETUALANGAN
+    // ====================================================
+
+    else if (type === "intro") {
+
+      const notes = [
+        392.00,
+        523.25,
+        659.25
+      ];
+
+      notes.forEach((frequency, index) => {
+
+        const osc =
+          audioCtx.createOscillator();
+
+        const gain =
+          audioCtx.createGain();
+
+        const startTime =
+          now + index * 0.12;
+
+        osc.type = "triangle";
+
+        osc.frequency.setValueAtTime(
+          frequency,
+          startTime
+        );
+
+        gain.gain.setValueAtTime(
+          0.001,
+          startTime
+        );
+
+        gain.gain.linearRampToValueAtTime(
+          0.25,
+          startTime + 0.03
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+          0.001,
+          startTime + 0.35
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + 0.35);
+      });
+    }
+
+
+    // ====================================================
+    // COUNTDOWN
+    // ====================================================
+
+    else if (type === "countdown") {
+
+      const osc =
+        audioCtx.createOscillator();
+
+      const gain =
+        audioCtx.createGain();
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.type = "sine";
+
+      osc.frequency.setValueAtTime(
+        880,
+        now
+      );
+
+      gain.gain.setValueAtTime(
+        0.22,
+        now
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 0.12
+      );
+
+      osc.start(now);
+      osc.stop(now + 0.12);
+    }
+
+
+    // ====================================================
+    // MULAI PERMAINAN
+    // ====================================================
+
+    else if (type === "start") {
+
+      const notes = [
+        523.25,
+        659.25,
+        783.99,
+        1046.50
+      ];
+
+      notes.forEach((frequency, index) => {
+
+        const osc =
+          audioCtx.createOscillator();
+
+        const gain =
+          audioCtx.createGain();
+
+        const startTime =
+          now + index * 0.1;
+
+        osc.type = "triangle";
+
+        osc.frequency.setValueAtTime(
+          frequency,
+          startTime
+        );
+
+        gain.gain.setValueAtTime(
+          0.001,
+          startTime
+        );
+
+        gain.gain.linearRampToValueAtTime(
+          0.3,
+          startTime + 0.03
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+          0.001,
+          startTime + 0.35
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + 0.35);
+      });
+    }
 
     // ====================================================
     // KLIK
@@ -1036,6 +1180,7 @@ function showIntroScreen() {
 
   introCountdown = 5;
 
+  playSound("intro");
 
   const timerBar =
     document.getElementById(
@@ -1077,6 +1222,7 @@ function showIntroScreen() {
 
         introCountdown--;
 
+        playSound("countdown");
 
         if (countdownText) {
 
@@ -1093,6 +1239,8 @@ function showIntroScreen() {
 
 
         if (introCountdown <= 0) {
+
+          playSound("start");
 
           closeIntroAndStartGame();
         }
